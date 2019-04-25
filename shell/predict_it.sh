@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+BERT_BASE_DIR=/Users/alchemistlee/projects/alchemistlee/MagiRobe/bert/uncased_L-12_H-768_A-12
+GLUE_DIR=/Users/alchemistlee/Personal/projects/tigerye/py-toolkit/glue_data
+
+TRAINED_CLASSIFIER=$BERT_BASE_DIR/bert_model.ckpt
+
+python3 /Users/alchemistlee/Personal/projects/tigerye/bert/run_classifier.py \
+  --task_name=MRPC \
+  --do_predict=true \
+  --data_dir=$GLUE_DIR/MRPC \
+  --vocab_file=$BERT_BASE_DIR/vocab.txt \
+  --bert_config_file=$BERT_BASE_DIR/bert_config.json \
+  --init_checkpoint=$TRAINED_CLASSIFIER \
+  --max_seq_length=128 \
+  --output_dir=/tmp/mrpc_output/run/
