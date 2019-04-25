@@ -23,4 +23,4 @@ python3 $SCRIPT_DIR/run_classifier.py \
   --train_batch_size=32 \
   --learning_rate=2e-5 \
   --num_train_epochs=3.0 \
-  --output_dir=$OUT_DIR
+  --output_dir=$OUTPUT_DIR
