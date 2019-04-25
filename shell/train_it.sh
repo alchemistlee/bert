@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 
-BERT_BASE_DIR=/Users/alchemistlee/projects/alchemistlee/MagiRobe/bert/uncased_L-12_H-768_A-12
-GLUE_DIR=/Users/alchemistlee/Personal/projects/tigerye/py-toolkit/glue_data
-OUT_DIR=/tmp/mrpc_output/train/
+#BERT_BASE_DIR=/Users/alchemistlee/projects/alchemistlee/MagiRobe/bert/uncased_L-12_H-768_A-12
+#GLUE_DIR=/Users/alchemistlee/Personal/projects/tigerye/py-toolkit/glue_data
+#OUT_DIR=/tmp/mrpc_output/train/
 
-python /Users/alchemistlee/Personal/projects/tigerye/bert/run_classifier.py \
+BERT_BASE_DIR=/root/bert_data/data/bert_model/bert/uncased_L-12_H-768_A-12
+GLUE_DIR=/root/bert_data/data/glue_data
+OUTPUT_DIR=/root/bert_out/
+
+SCRIPT_DIR=/home/yifan/anywhere/bert
+
+
+python3 $SCRIPT_DIR/run_classifier.py \
   --task_name=MRPC \
   --do_train=true \
   --do_eval=true \
