@@ -8,7 +8,10 @@ GLUE_DIR=/root/bert_data/data/glue_data
 TRAINED_CLASSIFIER=$BERT_BASE_DIR/bert_model.ckpt
 OUTPUT_DIR=/root/bert_out/
 
-python3 /Users/alchemistlee/Personal/projects/tigerye/bert/run_classifier.py \
+#SCRIPT_DIR=/Users/alchemistlee/Personal/projects/tigerye/bert
+SCRIPT_DIR=/home/yifan/anywhere/bert
+
+python3 $SCRIPT_DIR/run_classifier.py \
   --task_name=MRPC \
   --do_predict=true \
   --data_dir=$GLUE_DIR/MRPC \
