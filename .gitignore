@@ -118,3 +118,5 @@ dmypy.json
 .idea
 data/
 data.tar
+
+nohup.out
