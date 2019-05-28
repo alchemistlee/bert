@@ -10,6 +10,7 @@ import os
 import tensorflow as tf
 import numpy as np
 import utils
+import collections
 import tokenization
 
 flags = tf.flags
@@ -44,16 +45,51 @@ flags.DEFINE_integer("iterations_per_loop", 1000,"How many steps to make in each
 
 
 def load_train_data(vocab_file, train_file, val_file, test_file, label_file):
-  pass
+  vocab_dict = load_vocab(vocab_file)
+  label_dict = load_label(label_file)
+  train_data = load_samples(train_file)
+  val_data = load_samples(val_file)
+  test_data = load_samples(test_file)
+
+  return vocab_dict, label_dict, train_data, val_data, test_data
+
 
 def load_vocab(vocab_file):
-  pass
+  return tokenization.load_vocab(vocab_file)
+
 
 def load_label(label_file):
-  pass
+  label_dict = collections.OrderedDict()
+  index = 0
+  with tf.gfile.GFile(label_file, "r") as reader:
+    while True:
+      token = tokenization.convert_to_unicode(reader.readline())
+      if not token:
+        break
+      token = token.strip()
+      label_dict[token] = index
+      index += 1
+  return label_dict
+
 
 def load_samples(sample_file):
-  pass
+  res = []
+  index = 0
+  with tf.gfile.GFile(sample_file, "r") as reader:
+    while True:
+      line = reader.readline()
+      if not line:
+        break
+      line = line.strip()
+      tmp_data = line.split('\t')
+
+      if len(tmp_data) != 2:
+        continue
+      res.append(tmp_data)
+      index += 1
+  print('load file [ %s ] , size = [ %s ]' % (sample_file,str(index+1)))
+  return res
+
 
 
 def trans_multilabel_as_multihot(label_dict,origin_label):
