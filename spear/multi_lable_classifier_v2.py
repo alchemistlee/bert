@@ -317,7 +317,7 @@ def eval_it(sess, input_ids, input_mask, segment_ids, label_ids, is_training, lo
   num_examples = len(valid_data)
 
   eval_loss, eval_counter, eval_f1_score, eval_p, eval_r = 0.0, 0, 0.0, 0.0, 0.0
-  label_dict = utils.init_label_dict(len(label_dict))
+  calc_label_dict = utils.init_label_dict(len(label_dict))
   print("do_eval , number_examples:", num_examples)
   f1_score_micro_sklearn_total = 0.0
   # batch_size=1 # TODO
@@ -337,11 +337,11 @@ def eval_it(sess, input_ids, input_mask, segment_ids, label_ids, is_training, lo
       print("predict_labels:", predict_labels)
 
     # print("predict_labels:",predict_labels)
-    label_dict = utils.compute_confuse_matrix_batch(target_labels, predict_labels, label_dict, name='bert')
+      calc_label_dict = utils.compute_confuse_matrix_batch(target_labels, predict_labels, calc_label_dict, name='bert')
     eval_loss, eval_counter = eval_loss + curr_eval_loss, eval_counter + 1
 
   # label_dictis a dict, key is: accusation,value is: (TP,FP,FN). where TP is number of True Positive
-  f1_micro, f1_macro = utils.compute_micro_macro(label_dict)
+  f1_micro, f1_macro = utils.compute_micro_macro(calc_label_dict)
   f1_score_result = (f1_micro + f1_macro) / 2.0
   return eval_loss / float(eval_counter + 0.00001), f1_score_result, f1_micro, f1_macro
 
