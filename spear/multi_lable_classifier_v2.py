@@ -12,6 +12,9 @@ import numpy as np
 import utils
 import collections
 import tokenization
+import sys
+
+sys.path.append('../')
 
 flags = tf.flags
 
