@@ -380,7 +380,7 @@ def main(_):
   num_of_train_data = len(train_data)
   iteration = 0
   curr_epoch = 0
-  batch_size = FLAGS.batch_size
+  batch_size = FLAGS.train_batch_size
 
   tokenizer = tokenization.FullTokenizer(vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
 
