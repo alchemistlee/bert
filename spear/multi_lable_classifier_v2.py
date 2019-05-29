@@ -320,7 +320,7 @@ def eval_it(sess, input_ids, input_mask, segment_ids, label_ids, is_training, lo
     batch_input_ids_, batch_input_mask_, batch_segment_ids, batch_label_ids_ = get_input_mask_segment_ids(valid_data[start:end], start, label_dict, FLAGS.max_seq_length,tokenizer )
 
     feed_dict = {input_ids: batch_input_ids_, input_mask: batch_input_mask_, segment_ids: batch_segment_ids,
-                 label_ids: batch_label_ids_, is_training: False}
+                 label_ids: batch_label_ids_}
     curr_eval_loss, prob = sess.run([loss, probabilities], feed_dict)
     # target_labels = utils.get_target_label_short_batch(vaildY[start:end])
     target_labels = utils.get_origin_label_from_origin_sample(valid_data[start:end])
@@ -391,7 +391,7 @@ def main(_):
       batch_data = train_data[start:end]
       batch_input_ids, batch_input_mask, batch_segment_ids, batch_label_ids = get_input_mask_segment_ids(batch_data,start,label_dict,FLAGS.max_seq_length,tokenizer)
       feed_dict = {input_ids: batch_input_ids, input_mask: batch_input_mask, segment_ids: batch_segment_ids,
-                   label_ids: batch_label_ids, is_training: True}
+                   label_ids: batch_label_ids}
       curr_loss, _ = sess.run([loss, train_op], feed_dict)
       loss_total, counter = loss_total + curr_loss, counter + 1
       if counter % 30 == 0:
