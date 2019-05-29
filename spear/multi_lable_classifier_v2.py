@@ -29,6 +29,7 @@ flags.DEFINE_string("output_dir", None,
 
 #other-parameter
 flags.DEFINE_string("ckpt_dir", None,"Initial checkpoint (usually from a pre-trained BERT model).")
+flags.DEFINE_string("init_ckpt", None,"Initial checkpoint (usually from a pre-trained BERT model).")
 flags.DEFINE_bool("do_lower_case", True,"Whether to lower case the input text. Should be True for uncased models and False for cased models.")
 
 #hyper-parameter
@@ -357,9 +358,9 @@ def main(_):
   sess.run(tf.global_variables_initializer())
   saver = tf.train.Saver()
 
-  if os.path.exists(FLAGS.ckpt_dir + "checkpoint"):
+  if os.path.exists(FLAGS.init_ckpt):
     print("Checkpoint Exists. Restoring Variables from Checkpoint.")
-    saver.restore(sess, tf.train.latest_checkpoint(FLAGS.ckpt_dir))
+    saver.restore(sess, tf.train.latest_checkpoint(FLAGS.init_ckpt))
 
   num_of_train_data = len(train_data)
   iteration = 0
@@ -390,7 +391,7 @@ def main(_):
         print("Epoch %d Validation Loss:%.3f\tF1 Score:%.3f\tF1_micro:%.3f\tF1_macro:%.3f" % (epoch, eval_loss, f1_score, f1_micro, f1_macro))
         # save model to checkpoint
         # if start % (4000 * FLAGS.batch_size)==0:
-        save_path = FLAGS.ckpt_dir + "model.ckpt"
+        save_path = FLAGS.output_dir + "model.ckpt"
         print("Going to save model..")
         saver.save(sess, save_path, global_step=epoch)
 
