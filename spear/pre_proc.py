@@ -69,9 +69,9 @@ def prod_train_val_test_label_in_file(base_path,data_name):
 
         seed = random.random()
 
-        if 0.0 <= seed < 0.1:
+        if 0.0 <= seed < 0.01:
           val_fh.write(tmp_line_txt)
-        elif 0.1<= seed < 0.2 :
+        elif 0.01<= seed < 0.02 :
           test_fh.write(tmp_line_txt)
         else:
           train_fh.write(tmp_line_txt)
