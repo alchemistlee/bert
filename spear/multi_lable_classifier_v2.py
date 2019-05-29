@@ -159,7 +159,12 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
     def not_apply_dropout(output_layer):
       return output_layer
 
-    output_layer=tf.cond(is_training, lambda: apply_dropout_last_layer(output_layer), lambda:not_apply_dropout(output_layer))
+    # output_layer=tf.cond(is_training, lambda: apply_dropout_last_layer(output_layer), lambda:not_apply_dropout(output_layer))
+    if is_training:
+      output_layer = apply_dropout_last_layer(output_layer)
+    else :
+      output_layer = not_apply_dropout(output_layer)
+
 
     logits = tf.matmul(output_layer, output_weights, transpose_b=True)
     logits = tf.nn.bias_add(logits, output_bias)
