@@ -36,6 +36,8 @@ flags.DEFINE_string("output_dir", None,
 flags.DEFINE_string("ckpt_dir", None,"Initial checkpoint (usually from a pre-trained BERT model).")
 flags.DEFINE_string("init_ckpt", None,"Initial checkpoint (usually from a pre-trained BERT model).")
 flags.DEFINE_bool("do_lower_case", True,"Whether to lower case the input text. Should be True for uncased models and False for cased models.")
+flags.DEFINE_bool("use_tpu", False, "Whether to use TPU or GPU/CPU.")
+
 
 #hyper-parameter
 flags.DEFINE_integer("max_seq_length", 128,
@@ -48,6 +50,7 @@ flags.DEFINE_float("num_train_epochs", 3.0,"Total number of training epochs to p
 flags.DEFINE_float("warmup_proportion", 0.1,"Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10% of training.")
 flags.DEFINE_integer("save_checkpoints_steps", 1000,"How often to save the model checkpoint.")
 flags.DEFINE_integer("iterations_per_loop", 1000,"How many steps to make in each estimator call.")
+
 
 
 def load_train_data(vocab_file, train_file, val_file, test_file, label_file):
@@ -350,7 +353,7 @@ def main(_):
   label_ids = tf.placeholder(tf.float32, [None, label_size], name="label_ids")
   is_training = tf.placeholder(tf.bool, name="is_training")  # FLAGS.is_training
 
-  use_one_hot_embeddings = False
+  use_one_hot_embeddings = FLAGS.use_tpu
   loss, per_example_loss, logits, probabilities, model = create_model(bert_config, is_training, input_ids, input_mask,
                                                                       segment_ids, label_ids, label_size,use_one_hot_embeddings)
 
