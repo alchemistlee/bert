@@ -53,11 +53,14 @@ def prod_train_val_test_label_in_file(base_path,data_name):
   train_file, val_file, test_file = get_resp_file(base_path,data_name)
   label_set = dict()
 
+  train_cnt, val_cnt, test_cnt, abnormal_cnt = 0,0,0,0
+
   with open(train_file,'w') as train_fh, open(val_file,'w') as val_fh, open(test_file,'w') as test_fh :
     with open(data_file,'r') as data_fh:
       for cont in data_fh.read().split("\n!@#$%^&***********\n"):
         line = cont.strip().split("\t", 1)
         if len(line) != 2:
+          abnormal_cnt += 1
           continue
         tmp_label = eval(line[0])
         tmp_label = [ str(x) for x in tmp_label]
@@ -70,10 +73,13 @@ def prod_train_val_test_label_in_file(base_path,data_name):
         seed = random.random()
 
         if 0.0 <= seed < 0.01:
+          val_cnt += 1
           val_fh.write(tmp_line_txt)
-        elif 0.01<= seed < 0.02 :
+        elif 0.01 <= seed < 0.02 :
+          test_cnt += 1
           test_fh.write(tmp_line_txt)
         else:
+          train_cnt += 1
           train_fh.write(tmp_line_txt)
 
         for item_label in tmp_label:
@@ -85,6 +91,7 @@ def prod_train_val_test_label_in_file(base_path,data_name):
             label_set[item_label] = tmp_cnt
 
   print('finish write train / val / test ')
+  print('stat , train = [ %s ] , val = [ %s ] , test = [ %s ] , abnormal = [ %s ]' % (str(train_cnt),str(val_cnt),str(test_cnt),str(abnormal_cnt)))
 
   lable_file = base_path + 'label.txt'
   with open(lable_file,'w') as lable_fh:
