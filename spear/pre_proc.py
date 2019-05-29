@@ -42,7 +42,6 @@ def write_into_file(data,fh):
     tmp_line = '%s\t%s\n' % (item[0],item[1])
     fh.write(tmp_line)
 
-
 def prod_train_val_test_label_in_file(base_path,data_name):
   '''
   在文件里面生成train / val / test 和 label
@@ -61,6 +60,8 @@ def prod_train_val_test_label_in_file(base_path,data_name):
         if len(line) != 2:
           continue
         tmp_label = eval(line[0])
+        tmp_label = [ str(x) for x in tmp_label]
+
         tmp_info = line[1]
         tmp_label_txt = '|'.join(tmp_label)
 
