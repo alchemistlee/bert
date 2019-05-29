@@ -147,7 +147,7 @@ def prod_train_val_test_label_in_mem(base_path, data_name):
   print('finish write lable ')
 
 
-if __name__ == '__main___':
+if __name__ == '__main__':
   origin_data_file = None
   try:
     opts, args = getopt.getopt(sys.argv[1:],'hi:t:')
