@@ -400,7 +400,7 @@ def main(_):
         print("input_ids[", start, "]:", batch_input_ids[0])
         print("target_label[", start, "]:", batch_label_ids[0])
 
-      if start != 0 and start % (1000 * FLAGS.batch_size) == 0:
+      if start != 0 and start % (1000 * FLAGS.eval_batch_size) == 0:
         eval_loss, f1_score, f1_micro, f1_macro = eval_it(sess, input_ids, input_mask, segment_ids, label_ids,
                                                           is_training, loss,probabilities, val_data, batch_size, cls_id, label_dict, tokenizer)
         print("Epoch %d Validation Loss:%.3f\tF1 Score:%.3f\tF1_micro:%.3f\tF1_macro:%.3f" % (epoch, eval_loss, f1_score, f1_micro, f1_macro))
