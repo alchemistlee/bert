@@ -169,6 +169,7 @@ if __name__ == '__main__':
 
   if not origin_data_file is None:
     dirname, filename = os.path.split(origin_data_file)
+    dirname = dirname + '/'
     print('input path and file , [ %s ] [ %s ]' % (dirname, filename))
 
     if is_file_proc :
