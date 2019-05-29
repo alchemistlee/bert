@@ -5,6 +5,10 @@
 # @fileName: multi_lable_classifier_v2.py
 # @abstract:
 
+import sys
+
+sys.path.append('../')
+
 import modeling
 import os
 import tensorflow as tf
@@ -12,9 +16,7 @@ import numpy as np
 import utils
 import collections
 import tokenization
-import sys
 
-sys.path.append('../')
 
 flags = tf.flags
 
