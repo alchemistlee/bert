@@ -93,9 +93,12 @@ def prod_train_val_test_label_in_file(base_path,data_name):
   print('finish write train / val / test ')
   print('stat , train = [ %s ] , val = [ %s ] , test = [ %s ] , abnormal = [ %s ]' % (str(train_cnt),str(val_cnt),str(test_cnt),str(abnormal_cnt)))
 
+  sorted_labels = [ k for k in sorted(label_set.keys())]
+
   lable_file = base_path + 'label.txt'
   with open(lable_file,'w') as lable_fh:
-    for sub_label in label_set.keys():
+    # for sub_label in label_set.keys():
+    for sub_label in sorted_labels:
       lable_fh.write(sub_label+'\n')
 
   print('finish write lable ')
