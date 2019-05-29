@@ -270,8 +270,12 @@ def convert_single_example(ex_index, sample, label_dict, max_seq_length,tokenize
   assert len(segment_ids) == max_seq_length
 
   # label_id = label_map[example.label]
+  try:
+    label_id = trans_multilabel_as_multihot(label_dict,sample_lable)
+  except Exception as e:
+    print('err : label-dict = %s , sample-label = %s ' % (str(label_dict),str(sample_lable)))
+    sys.exit(2)
 
-  label_id = trans_multilabel_as_multihot(label_dict,sample_lable)
 
   if ex_index < 5:
     tf.logging.info("*** Example ***")
