@@ -384,7 +384,7 @@ def main(_):
 
   tokenizer = tokenization.FullTokenizer(vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
 
-  for epoch in range(curr_epoch, FLAGS.num_train_epochs):
+  for epoch in range(curr_epoch, int(FLAGS.num_train_epochs)):
     loss_total, counter = 0.0, 0
     for start, end in zip(range(0, num_of_train_data, batch_size),range(batch_size, num_of_train_data, batch_size)):
       iteration = iteration + 1
