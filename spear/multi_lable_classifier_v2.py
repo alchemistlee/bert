@@ -79,6 +79,8 @@ def load_label(label_file):
       token = token.strip()
       label_dict[token] = index
       index += 1
+
+  print('label-dict = '+str(label_dict))
   return label_dict
 
 
