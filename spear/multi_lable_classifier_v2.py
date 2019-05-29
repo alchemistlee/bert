@@ -37,6 +37,7 @@ flags.DEFINE_string("ckpt_dir", None,"Initial checkpoint (usually from a pre-tra
 flags.DEFINE_string("init_ckpt", None,"Initial checkpoint (usually from a pre-trained BERT model).")
 flags.DEFINE_bool("do_lower_case", True,"Whether to lower case the input text. Should be True for uncased models and False for cased models.")
 flags.DEFINE_bool("use_tpu", False, "Whether to use TPU or GPU/CPU.")
+flags.DEFINE_bool("do_train", True, "Whether to run training.")
 
 
 #hyper-parameter
@@ -351,7 +352,8 @@ def main(_):
   input_mask = tf.placeholder(tf.int32, [None, FLAGS.max_seq_length], name="input_mask")
   segment_ids = tf.placeholder(tf.int32, [None, FLAGS.max_seq_length], name="segment_ids")
   label_ids = tf.placeholder(tf.float32, [None, label_size], name="label_ids")
-  is_training = tf.placeholder(tf.bool, name="is_training")  # FLAGS.is_training
+  # is_training = tf.placeholder(tf.bool, name="is_training")  # FLAGS.is_training
+  is_training = FLAGS.do_train
 
   use_one_hot_embeddings = FLAGS.use_tpu
   loss, per_example_loss, logits, probabilities, model = create_model(bert_config, is_training, input_ids, input_mask,

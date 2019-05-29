@@ -12,6 +12,7 @@ SCRIPT_DIR=/root/workspace/bert/spear
 
 
 python3 $SCRIPT_DIR/multi_lable_classifier_v2.py \
+  --do_train=True \
   --data_dir=$DATA_DIR \
   --vocab_file=$BERT_BASE_DIR/vocab.txt \
   --bert_config_file=$BERT_BASE_DIR/bert_config.json \
