@@ -16,5 +16,5 @@ python3 $SCRIPT_DIR/multi_lable_classifier_v2.py \
   --data_dir=$DATA_DIR \
   --vocab_file=$BERT_BASE_DIR/vocab.txt \
   --bert_config_file=$BERT_BASE_DIR/bert_config.json \
-  --ckpt_dir=$BERT_BASE_DIR/bert_model.ckpt \
+  --init_ckpt=$BERT_BASE_DIR/bert_model.ckpt \
   --output_dir=$OUTPUT_DIR
