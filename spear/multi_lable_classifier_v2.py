@@ -278,7 +278,7 @@ def convert_single_example(ex_index, sample, label_dict, max_seq_length,tokenize
     tf.logging.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
     tf.logging.info("input_mask: %s" % " ".join([str(x) for x in input_mask]))
     tf.logging.info("segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
-    tf.logging.info("label: %s (id = %d)" % (str(sample_lable), label_id))
+    tf.logging.info("label: %s (id = %s)" % (str(sample_lable), label_id))
 
   return input_ids,input_mask,segment_ids,label_id
 
