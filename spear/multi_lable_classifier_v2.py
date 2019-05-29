@@ -195,7 +195,7 @@ def convert_single_example(ex_index, sample, label_dict, max_seq_length,tokenize
   #       label_id=0,
   #       is_real_example=False)
   text_a = sample[1]
-  sample_lable = sample[0]
+  sample_lable = sample[0].split('|')
 
   # label_map = {}
   # for (i, label) in enumerate(label_list):
