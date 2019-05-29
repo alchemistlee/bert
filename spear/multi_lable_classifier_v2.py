@@ -340,7 +340,7 @@ def main(_):
   vocab_dict, label_dict, train_data, val_data, test_data = load_train_data(FLAGS.vocab_file,train_file,val_file,test_file,label_file)
   vocab_size = len(vocab_dict)
   label_size = len(label_dict)
-  cls_id = vocab_dict['CLS']
+  cls_id = vocab_dict['[CLS]']
 
   bert_config = modeling.BertConfig.from_json_file(FLAGS.bert_config_file)
 
