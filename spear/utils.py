@@ -22,11 +22,12 @@ def get_target_label_short_batch(eval_y_big):  # tested.
   return eval_y_short_big
 
 
-def get_origin_label_from_origin_sample(samples):
+def get_origin_label_from_origin_sample(samples,label_dict):
   label_res = []
   for item in samples:
-    tmp_label = item[0]
-    label_res.append(tmp_label)
+    tmp_labels = item[0].split('|')
+    tmp_label_index = [ label_dict[k] for k in tmp_labels ]
+    label_res.append(tmp_label_index)
   return label_res
 
 
