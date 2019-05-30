@@ -329,7 +329,7 @@ def eval_it(sess, input_ids, input_mask, segment_ids, label_ids, is_training, lo
                  label_ids: batch_label_ids_, is_training: False}
     curr_eval_loss, prob = sess.run([loss, probabilities], feed_dict)
     # target_labels = utils.get_target_label_short_batch(vaildY[start:end])
-    target_labels = utils.get_origin_label_from_origin_sample(valid_data[start:end])
+    target_labels = utils.get_origin_label_from_origin_sample(valid_data[start:end],label_dict)
 
     predict_labels = utils.get_label_using_logits_batch(prob)
     if start % 100 == 0:
