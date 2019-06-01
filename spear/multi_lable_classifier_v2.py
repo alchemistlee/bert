@@ -41,12 +41,12 @@ flags.DEFINE_bool("do_train", True, "Whether to run training.")
 
 
 #hyper-parameter
-flags.DEFINE_integer("max_seq_length", 128,
+flags.DEFINE_integer("max_seq_length", 40,
   "max total input sequence length after WordPiece tokenization. Seq longer than this will be truncated, and seq shorter than this will be padded.")
 flags.DEFINE_integer("train_batch_size", 32, "Total batch size for training.")
 flags.DEFINE_integer("eval_batch_size", 8, "Total batch size for eval.")
 flags.DEFINE_integer("predict_batch_size", 8, "Total batch size for predict.")
-flags.DEFINE_float("learning_rate", 5e-5, "The initial learning rate for Adam.")
+flags.DEFINE_float("learning_rate", 2e-5, "The initial learning rate for Adam.")
 flags.DEFINE_float("num_train_epochs", 3.0,"Total number of training epochs to perform.")
 flags.DEFINE_float("warmup_proportion", 0.1,"Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10% of training.")
 flags.DEFINE_integer("save_checkpoints_steps", 1000,"How often to save the model checkpoint.")
