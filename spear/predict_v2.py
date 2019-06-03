@@ -17,15 +17,22 @@ import utils
 import collections
 import tokenization
 import config
-
+import time
 
 class BertTag(object):
+
     def __init__(self):
         self.tokenizer = tokenization.FullTokenizer(vocab_file=config.VOCAB_FILE, do_lower_case=config.DO_LOWER_CASE)
         self.bert_config =  modeling.BertConfig.from_json_file(config.BERT_CONFIG_FILE)
         self.is_training = tf.cast(False, tf.bool)
+        self._initialize_gpu_config() 
 
+    def _initialize_gpu_config(self):
+
+        self.gpu_config = tf.ConfigProto()
+        self.gpu_config.gpu_options.allow_growth = True
  
+
     def _create_model(self, input_ids, input_mask, segment_ids):
 
           """Creates a classification model."""
@@ -36,7 +43,7 @@ class BertTag(object):
 	      input_mask=input_mask,
 	      token_type_ids=segment_ids,
 	      use_one_hot_embeddings=None)
-
+          
           output_layer = model.get_pooled_output()
 
           hidden_size = output_layer.shape[-1].value
@@ -54,7 +61,6 @@ class BertTag(object):
 
               probabilities = tf.nn.sigmoid(logits)  # tf.nn.softmax(logits, axis=-1)
               return probabilities
-	     
 
     def _convert_single_example(self, sample, max_seq_length,tokenizer):
           """Converts a single `InputExample` into a single `InputFeatures`."""
@@ -98,8 +104,7 @@ class BertTag(object):
           return [tmp_input_ids], [tmp_input_mask], [tmp_segment_ids]
 
 
-
-    def predict_it(self, text):
+    def _get_model(self):
 
         input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
         input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
@@ -107,23 +112,29 @@ class BertTag(object):
 
         use_one_hot_embeddings = None
         probabilities = self._create_model(input_ids, input_mask, segment_ids)
+        return probabilities
 
-        global_step = tf.Variable(0, trainable=False, name="Global_Step")
+    def predict_it(self, text):
+ 
+        input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
+        input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
+        segment_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="segment_ids")
 
-        gpu_config = tf.ConfigProto()
-        gpu_config.gpu_options.allow_growth = True
-        sess = tf.Session(config=gpu_config)
-        sess.run(tf.global_variables_initializer())
+        use_one_hot_embeddings = None
+        probabilities = self._create_model(input_ids, input_mask, segment_ids)
+        #global_step = tf.Variable(0, trainable=False, name="Global_Step")
+        sess = tf.Session(config=self.gpu_config)
+        sess.run(tf.global_variables_initializer()) 
         saver = tf.train.Saver()
         
         if os.path.exists(config.INIT_CKPT):
           print("Checkpoint Exists. Restoring Variables from Checkpoint.")
           saver.restore(sess, tf.train.latest_checkpoint(config.INIT_CKPT))
-
         
         batch_input_ids, batch_input_mask, batch_segment_ids = self._get_input_mask_segment_ids(text, config.MAX_SEQ_LENGTH, self.tokenizer)
 
         feed_dict = {input_ids: batch_input_ids, input_mask: batch_input_mask, segment_ids: batch_segment_ids}
+
         prob = sess.run([probabilities], feed_dict)
         return prob    
 
@@ -131,17 +142,14 @@ class BertTag(object):
 
 
 
-def main(_):
+def main():
     bertTag = BertTag()
-
     text = "economy hottest in world, socialism should be convicted: Larry Kudlow"
+    start = time.time()
     probs = bertTag.predict_it(text)
+    print(time.time()-start)
     print(probs)
 
 if __name__ == '__main__':
-  tf.app.run()
-
-
-
-
-
+   main() 
+   #tf.app.run()
