@@ -104,16 +104,6 @@ class BertTag(object):
           return [tmp_input_ids], [tmp_input_mask], [tmp_segment_ids]
 
 
-    def _get_model(self):
-
-        input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
-        input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
-        segment_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="segment_ids")
-
-        use_one_hot_embeddings = None
-        probabilities = self._create_model(input_ids, input_mask, segment_ids)
-        return probabilities
-
     def predict_it(self, text):
  
         input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
@@ -122,7 +112,7 @@ class BertTag(object):
 
         use_one_hot_embeddings = None
         probabilities = self._create_model(input_ids, input_mask, segment_ids)
-        #global_step = tf.Variable(0, trainable=False, name="Global_Step")
+        
         sess = tf.Session(config=self.gpu_config)
         sess.run(tf.global_variables_initializer()) 
         saver = tf.train.Saver()
