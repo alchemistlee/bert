@@ -28,16 +28,20 @@ class Spear(object):
     self.bert_config = modeling.BertConfig.from_json_file(config.BERT_CONFIG_FILE)
     self.is_training = tf.cast(False, tf.bool)
     self._initialize_gpu_config()
-    self._sess= tf.Session(config=self.gpu_config)
-    self._sess.run(tf.global_variables_initializer())
 
-    self._saver = tf.train.Saver()
+    self.input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
+    self.input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
+    self.segment_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="segment_ids")
+
+    self.probabilities = self._create_model(self.input_ids, self.input_mask, self.segment_ids)
+
+    self.sess = tf.Session(config=self.gpu_config)
+    self.sess.run(tf.global_variables_initializer())
+    self.saver = tf.train.Saver()
 
     if os.path.exists(config.INIT_CKPT):
       print("Checkpoint Exists. Restoring Variables from Checkpoint.")
-      self._saver.restore(self._sess, tf.train.latest_checkpoint(config.INIT_CKPT))
-
-
+      self.saver.restore(self.sess, tf.train.latest_checkpoint(config.INIT_CKPT))
 
   def _initialize_gpu_config(self):
 
@@ -112,13 +116,13 @@ class Spear(object):
 
   def predict_it(self, text):
 
-    input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
-    input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
-    segment_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="segment_ids")
+    # input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
+    # input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
+    # segment_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="segment_ids")
 
-    use_one_hot_embeddings = None
-    probabilities = self._create_model(input_ids, input_mask, segment_ids)
-
+    # use_one_hot_embeddings = None
+    # probabilities = self._create_model(input_ids, input_mask, segment_ids)
+    #
     # sess = tf.Session(config=self.gpu_config)
     # sess.run(tf.global_variables_initializer())
     # saver = tf.train.Saver()
@@ -130,9 +134,9 @@ class Spear(object):
     batch_input_ids, batch_input_mask, batch_segment_ids = self._get_input_mask_segment_ids(text, config.MAX_SEQ_LENGTH,
                                                                                             self.tokenizer)
 
-    feed_dict = {input_ids: batch_input_ids, input_mask: batch_input_mask, segment_ids: batch_segment_ids}
+    feed_dict = {self.input_ids: batch_input_ids, self.input_mask: batch_input_mask, self.segment_ids: batch_segment_ids}
 
-    prob = self._sess.run([probabilities], feed_dict)
+    prob = self.sess.run([self.probabilities], feed_dict)
     return prob
 
 
