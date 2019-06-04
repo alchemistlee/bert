@@ -63,6 +63,7 @@ def multi_label_bert():
     status, res = decode_predict_func(input_str)
     elapsed_time = time.time() - start_time
     print(' cost time =  %s ' % str(elapsed_time))
+    res_str = str(res)
   except Exception as e:
     result_dict['message'] = str(e)
     print('views action text error: %s' % e)
@@ -71,7 +72,7 @@ def multi_label_bert():
       'error_code': 0,
       'message': 'success',
       'data': {
-        'res': res,
+        'res': res_str,
         'status': status,
       }
     }
