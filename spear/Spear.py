@@ -21,7 +21,7 @@ import config
 import time
 
 
-class Spear(object):
+class MultiLabelSpear(object):
 
   def __init__(self):
     self.tokenizer = tokenization.FullTokenizer(vocab_file=config.VOCAB_FILE, do_lower_case=config.DO_LOWER_CASE)
@@ -115,7 +115,6 @@ class Spear(object):
     return [tmp_input_ids], [tmp_input_mask], [tmp_segment_ids]
 
   def predict_it(self, text):
-
     # input_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_ids")  # FLAGS.batch_size
     # input_mask = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="input_mask")
     # segment_ids = tf.placeholder(tf.int32, [None, config.MAX_SEQ_LENGTH], name="segment_ids")
@@ -130,10 +129,8 @@ class Spear(object):
     # if os.path.exists(config.INIT_CKPT):
     #   print("Checkpoint Exists. Restoring Variables from Checkpoint.")
     #   saver.restore(sess, tf.train.latest_checkpoint(config.INIT_CKPT))
-
     batch_input_ids, batch_input_mask, batch_segment_ids = self._get_input_mask_segment_ids(text, config.MAX_SEQ_LENGTH,
                                                                                             self.tokenizer)
-
     feed_dict = {self.input_ids: batch_input_ids, self.input_mask: batch_input_mask, self.segment_ids: batch_segment_ids}
 
     prob = self.sess.run([self.probabilities], feed_dict)
@@ -141,7 +138,7 @@ class Spear(object):
 
 
 def main():
-  bertTag = Spear()
+  bertTag = MultiLabelSpear()
   for i in range(0,10):
     print('index = %s' % str(i))
     text = "economy hottest in world, socialism should be convicted: Larry Kudlow"
