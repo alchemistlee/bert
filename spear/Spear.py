@@ -142,11 +142,13 @@ class Spear(object):
 
 def main():
   bertTag = Spear()
-  text = "economy hottest in world, socialism should be convicted: Larry Kudlow"
-  start = time.time()
-  probs = bertTag.predict_it(text)
-  print(time.time() - start)
-  print(probs)
+  for i in range(0,10):
+    print('index = %s' % str(i))
+    text = "economy hottest in world, socialism should be convicted: Larry Kudlow"
+    start = time.time()
+    probs = bertTag.predict_it(text)
+    print(time.time() - start)
+    print(probs)
 
 
 if __name__ == '__main__':
