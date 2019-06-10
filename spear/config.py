@@ -1,9 +1,8 @@
 import os
 
 
-BERT_BASE_DIR="/root/bert_data/data/bert_model/bert/uncased_L-12_H-768_A-12"
-DATA_DIR="/root/bert_data/data/news_multi_label/news_title/"
-OUTPUT_DIR="/root/bert_out/news_title"
+BERT_BASE_DIR="uncased_L-12_H-768_A-12/"
+OUTPUT_DIR="model/"
 
 
 VOCAB_FILE=os.path.join(BERT_BASE_DIR, "vocab.txt")

@@ -70,7 +70,9 @@ class SpearServer(object):
         continue
       try:
         uid, content = self._task_queue.get()
+        print("content:",content)
         prob = self._spear.predict_it(content)
+        print("prob:",prob)
         self._task_result[uid]=prob
       except Exception as e:
         print('ERR , host: %s, run error: %s' % (self._address, e))
