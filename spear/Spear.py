@@ -135,16 +135,12 @@ class MultiLabelSpear(object):
 
 def main():
   bertTag = MultiLabelSpear()
-  bertTag.predict_it("Bittrex Leads $1.5 Million Seed Round in South African Crypto Exchange VALR - CoinDesk")
-  """
-  for i in range(0,10):
-    print('index = %s' % str(i))
-    text = "economy hottest in world, socialism should be convicted: Larry Kudlow"
+  for i in range(0,1):
+    text = "socialism should be convicted: Larry Kudlow"
     start = time.time()
     probs = bertTag.predict_it(text)
-    print(time.time() - start)
+    print(text)
     print(probs)
-  """
 
 if __name__ == '__main__':
   main()
